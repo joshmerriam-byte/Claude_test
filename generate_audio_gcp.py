@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 """
-Generate podcast audio using Google Cloud Text-to-Speech Neural voices.
+Generate podcast audio using Google Cloud Text-to-Speech with Gemini voices.
 Produces high-quality neural TTS with two distinct voices for the hosts.
 """
 
 import os
 import re
+import json
+import base64
 import subprocess
-from google.cloud import texttospeech_v1
+import requests
+from google.oauth2 import service_account
+from google.auth.transport.requests import Request as GoogleAuthRequest
 
 # Configuration
 SCRIPT_PATH = "/home/user/Claude_test/claude_constitution_podcast_script.md"
@@ -15,19 +19,22 @@ OUTPUT_DIR = "/home/user/Claude_test/audio"
 FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast.mp3"
 CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 
-# Voice configurations - Neural2 voices for natural sound
+# Gemini TTS model
+TTS_MODEL = "gemini-2.5-flash-lite-preview-tts"
+
+# Voice configurations - Gemini voices
 VOICES = {
     "ALEX": {
-        "name": "en-US-Neural2-D",  # American male
+        "name": "Achernar",  # Female voice (star in Eridanus)
         "language_code": "en-US",
-        "speaking_rate": 1.0,
-        "pitch": 0.0,
+        "speaking_rate": 1.2,
+        "pitch": 0,
     },
     "JAMIE": {
-        "name": "en-GB-Neural2-B",  # British male
-        "language_code": "en-GB",
-        "speaking_rate": 1.0,
-        "pitch": 0.0,
+        "name": "Iapetus",  # Male voice (Saturn moon)
+        "language_code": "en-US",
+        "speaking_rate": 1.2,
+        "pitch": 0,
     },
 }
 
@@ -137,30 +144,49 @@ def clean_text_for_tts(text):
     return text.strip()
 
 
-def synthesize_speech(client, text, speaker):
-    """Generate audio for text using the specified speaker's voice."""
+def get_access_token(credentials_path):
+    """Get an access token from service account credentials."""
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials_path,
+        scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    )
+    credentials.refresh(GoogleAuthRequest())
+    return credentials.token
+
+
+def synthesize_speech(access_token, text, speaker):
+    """Generate audio for text using the specified speaker's voice via REST API."""
     voice_config = VOICES[speaker]
 
-    synthesis_input = texttospeech_v1.SynthesisInput(text=text)
+    url = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
 
-    voice = texttospeech_v1.VoiceSelectionParams(
-        language_code=voice_config["language_code"],
-        name=voice_config["name"]
-    )
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
 
-    audio_config = texttospeech_v1.AudioConfig(
-        audio_encoding=texttospeech_v1.AudioEncoding.MP3,
-        speaking_rate=voice_config["speaking_rate"],
-        pitch=voice_config["pitch"]
-    )
+    payload = {
+        "audioConfig": {
+            "audioEncoding": "MP3",
+            "pitch": voice_config["pitch"],
+            "speakingRate": voice_config["speaking_rate"],
+        },
+        "input": {
+            "text": text,
+        },
+        "voice": {
+            "languageCode": voice_config["language_code"],
+            "modelName": TTS_MODEL,
+            "name": voice_config["name"],
+        },
+    }
 
-    response = client.synthesize_speech(
-        input=synthesis_input,
-        voice=voice,
-        audio_config=audio_config
-    )
+    response = requests.post(url, headers=headers, json=payload)
+    response.raise_for_status()
 
-    return response.audio_content
+    # Decode base64 audio content
+    audio_content = base64.b64decode(response.json()["audioContent"])
+    return audio_content
 
 
 def generate_silence(duration_seconds, output_path):
@@ -199,15 +225,15 @@ def concat_audio_files(audio_files, output_path):
 
 
 def main():
-    # Set credentials
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = CREDENTIALS_PATH
-
     # Create output directory
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Initialize client with REST transport
-    print("Initializing Google Cloud TTS client...")
-    client = texttospeech_v1.TextToSpeechClient(transport='rest')
+    # Get access token for API calls
+    print("Authenticating with Google Cloud...")
+    access_token = get_access_token(CREDENTIALS_PATH)
+    print(f"Using Gemini TTS model: {TTS_MODEL}")
+    print(f"Voices: ALEX={VOICES['ALEX']['name']}, JAMIE={VOICES['JAMIE']['name']}")
+    print(f"Speaking rate: {VOICES['ALEX']['speaking_rate']}x")
 
     # Parse script
     print(f"Parsing script: {SCRIPT_PATH}")
@@ -241,7 +267,7 @@ def main():
 
             # Generate speech
             print(f"  Generating: {speaker}: {cleaned[:50]}...")
-            audio_content = synthesize_speech(client, cleaned, speaker)
+            audio_content = synthesize_speech(access_token, cleaned, speaker)
 
             # Save audio
             audio_path = os.path.join(OUTPUT_DIR, f"seg_{segment_idx:04d}_{speaker.lower()}.mp3")
