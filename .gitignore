@@ -1,0 +1,16 @@
+# Credentials - do not commit
+gcp_credentials.json
+*.pem
+*.key
+
+# Test files
+gcp_tts_test.mp3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Audio temp files
+audio/
