@@ -5,6 +5,7 @@ gcp_credentials.json
 
 # Test files
 gcp_tts_test.mp3
+test_*.mp3
 
 # Python
 __pycache__/
