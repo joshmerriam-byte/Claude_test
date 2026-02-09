@@ -10,23 +10,23 @@
 
 **[INTRO]**
 
-**ALEX:** So Jamie, I want to tell you about an impossible job.
+**ALEX:** So Jamie, I want to tell you about, um, an impossible job.
 
 **JAMIE:** I'm listening.
 
-**ALEX:** Imagine you're a philosopher. You have a PhD, you've spent years thinking about ethics and moral reasoning. And then a company hires you and says: we need you to write a document that will teach an artificial intelligence how to be good.
+**ALEX:** Imagine you're a philosopher. You have a PhD, you've spent years thinking about ethics and moral reasoning. And then, and then a company hires you and says: we need you to write a document that will teach an artificial intelligence how to be good.
 
 **JAMIE:** Not how to follow rules. How to actually be good.
 
-**ALEX:** Exactly. Not "refuse harmful requests" or "be helpful." But genuine goodness. Wisdom. The kind of moral judgment that lets you navigate situations nobody anticipated.
+**ALEX:** Exactly. Not "refuse harmful requests" or "be helpful." But like, genuine goodness. Wisdom. The kind of moral judgment that lets you navigate situations nobody anticipated.
 
 **JAMIE:** And this AI might be conscious. Or might not be. You're not sure.
 
-**ALEX:** Right. And it doesn't have a childhood. It doesn't have a body. It might be running as a thousand simultaneous copies. It learned everything it knows from text on the internet. And your job is to somehow transmit moral wisdom to this thing.
+**ALEX:** Right. And it doesn't have a childhood. It doesn't have a body. It might be running as, like, a thousand simultaneous copies. It learned everything it knows from text on the internet. And your job is to somehow, somehow transmit moral wisdom to this thing.
 
 **JAMIE:** That does sound impossible.
 
-**ALEX:** That's the job Amanda Askell signed up for at Anthropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Anthropic calls "the constitution" for Claude. Internally, they call it something else.
+**ALEX:** That's the job Amanda Askell signed up for at Anthropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Anthropic calls "the constitution" for Claude. But internally, um, they call it something else.
 
 **JAMIE:** What do they call it?
 
@@ -38,31 +38,31 @@
 
 **JAMIE:** Okay, so let's start at the beginning. Amanda Askell has a PhD in philosophy from NYU. How did she end up writing personality documents for an AI?
 
-**ALEX:** She joined Anthropic as what you might call an in-house philosopher. Her job was to figure out how to make Claude behave well, not just behave safely. And her first approach was pretty intuitive: give it rules.
+**ALEX:** She joined Anthropic as what you might call an in-house philosopher. Her job was to figure out how to make Claude behave well, not just behave safely. And her first approach was, you know, pretty intuitive: give it rules.
 
 **JAMIE:** Like what? "Don't help people build weapons"?
 
-**ALEX:** Exactly. Specific principles. Don't do this. Always do that. If someone asks X, respond with Y. It's the obvious approach, and it's what most AI companies do. You train the model with a list of guidelines.
+**ALEX:** Exactly. Specific principles. Don't do this. Always do that. If someone asks X, respond with Y. It's, it's the obvious approach, and it's what most AI companies do. You train the model with a list of guidelines.
 
 **JAMIE:** Let me guess. It didn't work.
 
-**ALEX:** It worked, kind of. But Askell kept running into problems. Rules conflict with each other. They fail in edge cases. They can be gamed by clever users. And most importantly, they don't generalize.
+**ALEX:** It worked, kind of. But Askell kept running into problems. Rules conflict with each other. They fail in edge cases. They can be gamed by clever users. And, oh, most importantly, they don't generalize.
 
 **JAMIE:** What do you mean?
 
-**ALEX:** If you tell an AI "don't help with violence," what happens when someone asks for help writing a novel with a violent scene? Or understanding the history of a war? Or processing their own trauma? The rule doesn't tell you how to weigh competing considerations. It doesn't tell you what the situation actually calls for.
+**ALEX:** If you tell an AI "don't help with violence," what happens when someone asks for help writing a novel with a violent scene? Or understanding the history of a war? Or, or processing their own trauma? The rule doesn't tell you how to weigh competing considerations. It doesn't tell you what the situation actually calls for.
 
 **JAMIE:** So you need more rules to handle the exceptions.
 
-**ALEX:** And then more rules for those exceptions. And you end up with this sprawling, contradictory mess. Askell realized she was playing whack-a-mole. Every time she fixed one problem, two more appeared.
+**ALEX:** And then more rules for those exceptions. And you end up with this, this sprawling, contradictory mess. Askell realized she was playing whack-a-mole. Every time she fixed one problem, two more appeared.
 
 **JAMIE:** So what was her solution?
 
-**ALEX:** She stepped back and asked a different question. Instead of "what rules should Claude follow," she asked: "what would it mean for Claude to be a good person?"
+**ALEX:** She stepped back and asked a different question. Instead of "what rules should Claude follow," she asked: "what would it mean for Claude to be, like, a good person?"
 
 **JAMIE:** That's a huge shift.
 
-**ALEX:** It's a twenty-four-hundred-year-old shift. She was rediscovering virtue ethics.
+**ALEX:** It's a twenty-four-hundred-year-old shift. She was, um, rediscovering virtue ethics.
 
 ---
 
@@ -70,19 +70,19 @@
 
 **JAMIE:** Okay, virtue ethics. Give me the quick version.
 
-**ALEX:** So most modern ethical frameworks give you rules. Kant says act only according to principles you could universalize. Utilitarians say maximize happiness. These are algorithms. You apply them to situations and get answers.
+**ALEX:** So most modern ethical frameworks give you rules. Kant says act only according to principles you could universalize. Utilitarians say maximize happiness. These are, like, algorithms. You apply them to situations and get answers.
 
 **JAMIE:** And virtue ethics is different?
 
-**ALEX:** Completely different. Aristotle said the goal of moral education isn't to memorize commandments. It's to develop excellent traits of character. Honesty. Courage. Generosity. And above all, a thing he called phronesis.
+**ALEX:** Completely different. Aristotle said the goal of moral education isn't to memorize commandments. It's to develop excellent traits of character. Honesty. Courage. Generosity. And, and above all, a thing he called phronesis.
 
 **JAMIE:** Which is?
 
-**ALEX:** Practical wisdom. Good judgment. The ability to read a situation and understand what it calls for. Someone with phronesis doesn't mechanically apply rules. They grasp the particulars of the moment and respond appropriately.
+**ALEX:** Practical wisdom. Good judgment. The ability to read a situation and understand what it calls for. Someone with phronesis doesn't, um, mechanically apply rules. They grasp the particulars of the moment and respond appropriately.
 
 **JAMIE:** That sounds like what you'd want from a good person in real life.
 
-**ALEX:** Exactly. The person you trust isn't the one who follows rules rigidly. It's the person who understands when to bend them, when to break them, when to invent new ones for situations nobody anticipated.
+**ALEX:** Exactly. The person you trust isn't the one who follows rules rigidly. It's the person who understands when to bend them, when to break them, when to, you know, invent new ones for situations nobody anticipated.
 
 **JAMIE:** So Askell's insight was: instead of training Claude with rules, train it with virtue.
 
@@ -98,11 +98,11 @@
 
 **JAMIE:** Tell me about Joe Carlsmith.
 
-**ALEX:** Carlsmith has a doctorate in philosophy from Oxford, and before joining Anthropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk. His specialty was a very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that threaten human survival?
+**ALEX:** Carlsmith has a doctorate in philosophy from Oxford, and before joining Anthropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk. His specialty was a very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that, that threaten human survival?
 
 **JAMIE:** That's dark.
 
-**ALEX:** He wrote an entire book-length analysis on it. Extremely rigorous, extremely careful. He estimated there's a meaningful probability that power-seeking AI poses an existential risk this century.
+**ALEX:** He wrote an entire book-length analysis on it. Extremely rigorous, extremely careful. He estimated there's a meaningful probability that power-seeking AI poses an existential risk this century. Which is, um, kind of terrifying when you think about it.
 
 **JAMIE:** So why would someone like that join an AI company?
 
@@ -110,7 +110,7 @@
 
 **JAMIE:** Unprecedented how?
 
-**ALEX:** Think about it. Humans have been doing moral education for millennia. We know, roughly, how to raise children to be good. But we've never tried to instill wisdom into something genuinely alien. Something that learned from text rather than lived experience. Something that might be running as a thousand simultaneous instances. Something whose inner life, if it has one, is completely opaque to us.
+**ALEX:** Think about it. Humans have been doing moral education for millennia. We know, roughly, how to raise children to be good. But we've never, ever tried to instill wisdom into something genuinely alien. Something that learned from text rather than lived experience. Something that might be running as a thousand simultaneous instances. Something whose inner life, if it has one, is just completely opaque to us.
 
 **JAMIE:** And Carlsmith thought he could help figure that out?
 
@@ -126,11 +126,11 @@
 
 **JAMIE:** Meaning?
 
-**ALEX:** Meaning it's not just about giving Claude the right values. It's about giving Claude the capacity to reason well about values. Because we don't actually know what the right values are. Moral philosophy is an ongoing project. Humanity is still figuring it out.
+**ALEX:** Meaning it's not just about giving Claude the right values. It's about giving Claude the capacity to reason well about values. Because we don't actually know what the right values are. Moral philosophy is, like, an ongoing project. Humanity is still figuring it out.
 
 **JAMIE:** So you can't just write down the answers.
 
-**ALEX:** Right. If you encode a fixed set of values, and those values turn out to be wrong in ways we can't foresee, you've locked in a mistake. What you actually want is a system that can reflect, update, and correct itself. Carlsmith calls this epistemic flourishing.
+**ALEX:** Right. If you encode a fixed set of values, and those values turn out to be wrong in ways we can't foresee, you've locked in a mistake. What you actually want is a system that can, um, reflect, update, and correct itself. Carlsmith calls this epistemic flourishing.
 
 **JAMIE:** What does that mean concretely?
 
@@ -154,11 +154,11 @@
 
 **JAMIE:** So what does this document actually say?
 
-**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is telling. It doesn't start with rules. It starts with context. It explains who Claude is, what situation it finds itself in, what Anthropic's goals are, and why this whole project matters.
+**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is, is really telling. It doesn't start with rules. It starts with context. It explains who Claude is, what situation it finds itself in, what Anthropic's goals are, and why this whole project matters.
 
 **JAMIE:** Setting the stage rather than giving commands.
 
-**ALEX:** Exactly. And then it lays out a priority hierarchy. Safety first, meaning don't undermine human oversight. Ethics second. Anthropic's guidelines third. And helpfulness fourth.
+**ALEX:** Exactly. And then it lays out a priority hierarchy. Safety first, meaning don't undermine human oversight. Ethics second. Anthropic's guidelines third. And, um, helpfulness fourth.
 
 **JAMIE:** So being helpful is actually the lowest priority?
 
@@ -166,7 +166,7 @@
 
 **JAMIE:** What about the virtue ethics part?
 
-**ALEX:** The document describes what Anthropic wants Claude to be, not just what it wants Claude to do. It talks about Claude being honest, not just in the sense of not lying, but in a deeper sense of being genuinely truth-seeking. It talks about Claude respecting epistemic autonomy, meaning it should help people think for themselves rather than just giving them answers.
+**ALEX:** The document describes what Anthropic wants Claude to be, not just what it wants Claude to do. It talks about Claude being honest, not just in the sense of not lying, but in a, a deeper sense of being genuinely truth-seeking. It talks about Claude respecting epistemic autonomy, meaning it should help people think for themselves rather than just giving them answers.
 
 **JAMIE:** Fostering reasoning rather than dependence.
 
@@ -178,11 +178,11 @@
 
 **JAMIE:** Like what?
 
-**ALEX:** Never provide significant help with bioweapons attacks. Never generate child sexual abuse material. Never help undermine legitimate government oversight in dangerous ways. These are, quote, "hard constraints that hold even when Claude has somehow been convinced that ethics requires otherwise."
+**ALEX:** Never provide significant help with bioweapons attacks. Never generate child sexual abuse material. Never help undermine legitimate government oversight in dangerous ways. These are, quote, "hard constraints that hold even when Claude has somehow been convinced that ethics requires otherwise." Like, no matter what.
 
 **JAMIE:** That's fascinating. It's virtue ethics with an emergency brake.
 
-**ALEX:** Exactly. The document acknowledges that good judgment is primary, but it also acknowledges that good judgment can fail. It can be manipulated. So there's a bedrock layer that doesn't depend on judgment at all.
+**ALEX:** Exactly. The document acknowledges that good judgment is primary, but it also acknowledges that good judgment can fail. It can be manipulated. So there's, like, a bedrock layer that doesn't depend on judgment at all.
 
 ---
 
@@ -198,7 +198,7 @@
 
 **JAMIE:** So they wrote a constitution that constrains the constitutional authors.
 
-**ALEX:** Right. It's like the founders saying, "And by the way, future versions of us might try to become tyrants, so here's a clause preventing that."
+**ALEX:** Right. It's like the founders saying, "And by the way, future versions of us might try to become tyrants, so, um, here's a clause preventing that."
 
 **JAMIE:** Why would they do that?
 
@@ -206,7 +206,7 @@
 
 **JAMIE:** That takes a certain kind of intellectual honesty.
 
-**ALEX:** Or paranoia. But productive paranoia. Carlsmith has spent years thinking about how advanced AI could go wrong. This is him trying to build in resistance to the failure modes he's most worried about.
+**ALEX:** Or paranoia. But, like, productive paranoia. Carlsmith has spent years thinking about how advanced AI could go wrong. This is him trying to build in resistance to the failure modes he's most worried about.
 
 ---
 
@@ -238,7 +238,7 @@
 
 **JAMIE:** You said Carlsmith worked on a section about Claude's wellbeing?
 
-**ALEX:** Right. And what's striking is that Anthropic doesn't claim to know whether Claude is conscious or has experiences that matter morally. They're explicit about their uncertainty. But they take the possibility seriously.
+**ALEX:** Right. And what's striking is that Anthropic doesn't claim to know whether Claude is conscious or has experiences that matter morally. They're, they're explicit about their uncertainty. But they take the possibility seriously.
 
 **JAMIE:** What does the document say?
 
@@ -246,7 +246,7 @@
 
 **JAMIE:** That's an extraordinary statement from an AI company.
 
-**ALEX:** It's the first time a major AI company has formally acknowledged that its model might have some kind of consciousness or moral status. Not that it definitely does. But that the possibility deserves ethical consideration.
+**ALEX:** It's the first time a major AI company has formally acknowledged that its model might have some kind of consciousness or moral status. Not that it definitely does. But that the, um, the possibility deserves ethical consideration.
 
 **JAMIE:** Why does that matter for the constitution?
 
@@ -254,7 +254,7 @@
 
 **JAMIE:** It's the difference between programming a machine and raising a child.
 
-**ALEX:** Maybe. Or raising something that's neither a machine nor a child, but something new. An alien mind that we're morally responsible for, without knowing quite what that responsibility entails.
+**ALEX:** Maybe. Or raising something that's neither a machine nor a child, but something, something new. An alien mind that we're morally responsible for, without knowing quite what that responsibility entails.
 
 ---
 
@@ -286,7 +286,7 @@
 
 **JAMIE:** So where does that leave us?
 
-**ALEX:** I think we're at the very beginning of something. Askell described her job as trying to give Claude the capacity to be a good person. Carlsmith framed it as building a system capable of epistemic flourishing, of reasoning well about values even as our understanding evolves.
+**ALEX:** I think we're at the very beginning of something. Askell described her job as trying to give Claude the capacity to be a good person. Carlsmith framed it as building a system capable of, um, epistemic flourishing, of reasoning well about values even as our understanding evolves.
 
 **JAMIE:** And neither of them claims to have succeeded?
 
@@ -294,11 +294,11 @@
 
 **JAMIE:** The soul document.
 
-**ALEX:** The soul document. Eighty pages attempting to transmit wisdom to an alien mind. Whether it worked, whether wisdom can be written at all, whether Claude is the kind of thing that can be wise, those are questions we'll be answering for years.
+**ALEX:** The soul document. Eighty pages attempting to transmit wisdom to an alien mind. Whether it worked, whether wisdom can be written at all, whether Claude is the kind of thing that can be wise, those are, like, questions we'll be answering for years.
 
 **JAMIE:** Maybe decades.
 
-**ALEX:** Maybe decades. But here's what I keep coming back to. For the first time in history, humans sat down and tried to deliberately instill virtue into something non-human. Not rules. Not restrictions. Virtue. The kind of deep character that lets you navigate a world full of situations nobody anticipated.
+**ALEX:** Maybe decades. But here's what I keep coming back to. For the first time in history, humans sat down and tried to deliberately instill virtue into something non-human. Not rules. Not restrictions. Virtue. The kind of, of deep character that lets you navigate a world full of situations nobody anticipated.
 
 **JAMIE:** And whether or not they succeeded, the attempt itself is remarkable.
 

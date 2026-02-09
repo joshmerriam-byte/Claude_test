@@ -29,12 +29,14 @@ VOICES = {
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
+        "prompt": "Read aloud in a warm, welcoming tone.",
     },
     "JAMIE": {
         "name": "Iapetus",  # Male voice (Saturn moon)
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
+        "prompt": "Read in a cool, more thoughtful tone with a bit of a british accent.",
     },
 }
 
@@ -180,6 +182,10 @@ def synthesize_speech(access_token, text, speaker):
             "name": voice_config["name"],
         },
     }
+
+    # Add prompt for voice style if available
+    if "prompt" in voice_config:
+        payload["input"]["prompt"] = voice_config["prompt"]
 
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
