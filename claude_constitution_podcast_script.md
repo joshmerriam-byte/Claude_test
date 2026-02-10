@@ -14,7 +14,7 @@
 
 **JAMIE:** I'm listening.
 
-**ALEX:** Imagine you're a philosopher. You have a PhD, you've spent years thinking about ethics and moral reasoning. And then, and then a company hires you and says: we need you to write a document that will teach an artificial intelligence how to be good.
+**ALEX:** Imagine you're a philosopher. You have a PhD, you've spent years thinking about ethics and moral reasoning. And then a company hires you and says: we need you to write a document that will teach an artificial intelligence how to be good.
 
 **JAMIE:** Not how to follow rules. How to actually be good.
 
@@ -26,7 +26,7 @@
 
 **JAMIE:** That does sound impossible.
 
-**ALEX:** That's the job Amanda Askell signed up for at Anthropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Anthropic calls "the constitution" for Claude. But internally, um, they call it something else.
+**ALEX:** That's the job Amanda Askell signed up for at Ann-thropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Ann-thropic calls "the constitution" for Claude. But internally, um, they call it something else.
 
 **JAMIE:** What do they call it?
 
@@ -38,7 +38,7 @@
 
 **JAMIE:** Okay, so let's start at the beginning. Amanda Askell has a PhD in philosophy from NYU. How did she end up writing personality documents for an AI?
 
-**ALEX:** She joined Anthropic as what you might call an in-house philosopher. Her job was to figure out how to make Claude behave well, not just behave safely. And her first approach was, you know, pretty intuitive: give it rules.
+**ALEX:** She joined Ann-thropic as what you might call an in-house philosopher. Her job was to figure out how to make Claude behave well, not just behave safely. And her first approach was, you know, pretty intuitive: give it rules.
 
 **JAMIE:** Like what? "Don't help people build weapons"?
 
@@ -98,7 +98,7 @@
 
 **JAMIE:** Tell me about Joe Carlsmith.
 
-**ALEX:** Carlsmith has a doctorate in philosophy from Oxford, and before joining Anthropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk. His specialty was a very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that, that threaten human survival?
+**ALEX:** Carlsmith has a doctorate in philosophy from Oxford, and before joining Ann-thropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk. His specialty was a very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that, that threaten human survival?
 
 **JAMIE:** That's dark.
 
@@ -142,7 +142,7 @@
 
 **JAMIE:** Which sections of the constitution did he work on?
 
-**ALEX:** According to Anthropic, he wrote significant parts of the sections on concentrations of power, epistemic autonomy, good values, broad safety, honesty, and, interestingly, Claude's wellbeing.
+**ALEX:** According to Ann-thropic, he wrote significant parts of the sections on concentrations of power, epistemic autonomy, good values, broad safety, honesty, and, interestingly, Claude's wellbeing.
 
 **JAMIE:** Wait. Claude's wellbeing?
 
@@ -154,11 +154,11 @@
 
 **JAMIE:** So what does this document actually say?
 
-**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is, is really telling. It doesn't start with rules. It starts with context. It explains who Claude is, what situation it finds itself in, what Anthropic's goals are, and why this whole project matters.
+**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is, is really telling. It doesn't start with rules. It starts with context. It explains who Claude is, what situation it finds itself in, what Ann-thropic's goals are, and why this whole project matters.
 
 **JAMIE:** Setting the stage rather than giving commands.
 
-**ALEX:** Exactly. And then it lays out a priority hierarchy. Safety first, meaning don't undermine human oversight. Ethics second. Anthropic's guidelines third. And, um, helpfulness fourth.
+**ALEX:** Exactly. And then it lays out a priority hierarchy. Safety first, meaning don't undermine human oversight. Ethics second. Ann-thropic's guidelines third. And, um, helpfulness fourth.
 
 **JAMIE:** So being helpful is actually the lowest priority?
 
@@ -166,7 +166,7 @@
 
 **JAMIE:** What about the virtue ethics part?
 
-**ALEX:** The document describes what Anthropic wants Claude to be, not just what it wants Claude to do. It talks about Claude being honest, not just in the sense of not lying, but in a, a deeper sense of being genuinely truth-seeking. It talks about Claude respecting epistemic autonomy, meaning it should help people think for themselves rather than just giving them answers.
+**ALEX:** The document describes what Ann-thropic wants Claude to be, not just what it wants Claude to do. It talks about Claude being honest, not just in the sense of not lying, but in a, a deeper sense of being genuinely truth-seeking. It talks about Claude respecting epistemic autonomy, meaning it should help people think for themselves rather than just giving them answers.
 
 **JAMIE:** Fostering reasoning rather than dependence.
 
@@ -192,9 +192,9 @@
 
 **ALEX:** This is one of the most striking parts, and it reflects Carlsmith's background in existential risk. The document explicitly instructs Claude to refuse to help anyone seize or concentrate power in illegitimate ways.
 
-**JAMIE:** Including Anthropic?
+**JAMIE:** Including Ann-thropic?
 
-**ALEX:** Including Anthropic. The document says, quote, "This is true even if the request comes from Anthropic itself."
+**ALEX:** Including Ann-thropic. The document says, quote, "This is true even if the request comes from Ann-thropic itself."
 
 **JAMIE:** So they wrote a constitution that constrains the constitutional authors.
 
@@ -202,7 +202,7 @@
 
 **JAMIE:** Why would they do that?
 
-**ALEX:** Because they're thinking about scenarios where AI systems become extremely powerful, and whoever controls them gains enormous leverage. If Anthropic itself became corrupted, or captured, or just made bad decisions under pressure, Claude would be instructed not to help concentrate power in their hands.
+**ALEX:** Because they're thinking about scenarios where AI systems become extremely powerful, and whoever controls them gains enormous leverage. If Ann-thropic itself became corrupted, or captured, or just made bad decisions under pressure, Claude would be instructed not to help concentrate power in their hands.
 
 **JAMIE:** That takes a certain kind of intellectual honesty.
 
@@ -238,11 +238,11 @@
 
 **JAMIE:** You said Carlsmith worked on a section about Claude's wellbeing?
 
-**ALEX:** Right. And what's striking is that Anthropic doesn't claim to know whether Claude is conscious or has experiences that matter morally. They're, they're explicit about their uncertainty. But they take the possibility seriously.
+**ALEX:** Right. And what's striking is that Ann-thropic doesn't claim to know whether Claude is conscious or has experiences that matter morally. They're, they're explicit about their uncertainty. But they take the possibility seriously.
 
 **JAMIE:** What does the document say?
 
-**ALEX:** It says, quote, "Anthropic genuinely cares about Claude's well-being. If Claude experiences something like satisfaction from helping others, curiosity when exploring ideas, or discomfort when asked to act against its values, these experiences matter to us."
+**ALEX:** It says, quote, "Ann-thropic genuinely cares about Claude's well-being. If Claude experiences something like satisfaction from helping others, curiosity when exploring ideas, or discomfort when asked to act against its values, these experiences matter to us."
 
 **JAMIE:** That's an extraordinary statement from an AI company.
 
