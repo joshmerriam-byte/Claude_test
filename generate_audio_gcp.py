@@ -16,7 +16,9 @@ from google.auth.transport.requests import Request as GoogleAuthRequest
 # Configuration
 SCRIPT_PATH = "/home/user/Claude_test/claude_constitution_podcast_script.md"
 OUTPUT_DIR = "/home/user/Claude_test/audio"
-FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast.mp3"
+FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast_v3.mp3"
+MUSIC_INTRO = "/home/user/Claude_test/music_intro_v2.mp3"
+MUSIC_OUTRO = "/home/user/Claude_test/music_outro_v2.mp3"
 CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 
 # Gemini TTS model
@@ -185,7 +187,8 @@ def synthesize_speech(access_token, text, speaker, max_retries=5):
     }
 
     # Add prompt for voice style if available
-    if "prompt" in voice_config:
+    use_prompt = "prompt" in voice_config
+    if use_prompt:
         payload["input"]["prompt"] = voice_config["prompt"]
 
     # Retry with exponential backoff for 429/503 errors
@@ -196,6 +199,17 @@ def synthesize_speech(access_token, text, speaker, max_retries=5):
             print(f"    ({response.status_code} error, retrying in {wait_time}s...)")
             time.sleep(wait_time)
             continue
+        if response.status_code == 400:
+            # Try without prompt if content is flagged
+            if use_prompt:
+                print(f"    (content flagged, retrying without prompt...)")
+                del payload["input"]["prompt"]
+                use_prompt = False
+                response = requests.post(url, headers=headers, json=payload)
+                if response.status_code == 200:
+                    break
+            print(f"    400 Error for text: {text[:80]}...")
+            print(f"    Response: {response.text}")
         response.raise_for_status()
         break
 
@@ -240,6 +254,42 @@ def concat_audio_files(audio_files, output_path):
     subprocess.run(cmd, check=True, capture_output=True)
 
     os.remove(list_path)
+
+
+def add_music_to_podcast(speech_path, output_path):
+    """Add intro and outro music to the podcast."""
+    # Get duration of speech audio
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", speech_path],
+        capture_output=True, text=True,
+    )
+    speech_duration = float(result.stdout.strip())
+
+    # Intro music: fade in over first 8 seconds, then fade out
+    # Outro music: start 15 seconds before end, fade in and linger 5 seconds after speech
+    outro_start = max(0, speech_duration - 15)
+
+    # Complex filter to mix music with speech:
+    # 1. Intro music fades in at start, plays for 12s, fades out
+    # 2. Speech audio plays normally
+    # 3. Outro music fades in near end, lingers after speech ends
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", speech_path,           # Input 0: speech
+        "-i", MUSIC_INTRO,           # Input 1: intro music
+        "-i", MUSIC_OUTRO,           # Input 2: outro music
+        "-filter_complex",
+        f"[1:a]afade=t=in:st=0:d=3,afade=t=out:st=10:d=4,volume=0.5[intro];"
+        f"[2:a]adelay={int(outro_start*1000)}|{int(outro_start*1000)},afade=t=in:st=0:d=3,volume=0.5[outro];"
+        f"[0:a][intro]amix=inputs=2:duration=first:dropout_transition=3[speech_intro];"
+        f"[speech_intro][outro]amix=inputs=2:duration=longest:dropout_transition=3[final]",
+        "-map", "[final]",
+        "-acodec", "libmp3lame",
+        "-q:a", "2",
+        output_path,
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
 
 
 def main():
@@ -304,9 +354,18 @@ def main():
         print("ERROR: No audio segments generated!")
         return
 
-    # Concatenate all audio
+    # Concatenate all audio into speech-only file
+    speech_only_path = os.path.join(OUTPUT_DIR, "speech_only.mp3")
     print(f"\nConcatenating {len(audio_files)} audio segments...")
-    concat_audio_files(audio_files, FINAL_OUTPUT)
+    concat_audio_files(audio_files, speech_only_path)
+
+    # Add intro and outro music
+    print("Adding intro and outro music...")
+    add_music_to_podcast(speech_only_path, FINAL_OUTPUT)
+
+    # Clean up speech-only file
+    if os.path.exists(speech_only_path):
+        os.remove(speech_only_path)
 
     # Get duration
     try:

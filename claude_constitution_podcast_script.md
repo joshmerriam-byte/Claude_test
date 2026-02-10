@@ -26,7 +26,7 @@
 
 **JAMIE:** That does sound impossible.
 
-**ALEX:** That's the job Amanda Askell signed up for at Ann-thropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Ann-thropic calls "the constitution" for Claude. But internally, um, they call it something else.
+**ALEX:** That's the job Amanda Askell signed up for at Ann-thropic. And in late 2025, she brought in a collaborator: a philosopher named Joe Carlsmith, who had spent years studying whether advanced AI might pose an existential risk to humanity. Together, they wrote what Ann-thropic calls "the constitution" for Clawd. But internally, um, they call it something else.
 
 **JAMIE:** What do they call it?
 
@@ -38,7 +38,7 @@
 
 **JAMIE:** Okay, so let's start at the beginning. Amanda Askell has a PhD in philosophy from NYU. How did she end up writing personality documents for an AI?
 
-**ALEX:** She joined Ann-thropic as what you might call an in-house philosopher. Her job was to figure out how to make Claude behave well, not just behave safely. And her first approach was, you know, pretty intuitive: give it rules.
+**ALEX:** She joined Ann-thropic as what you might call an in-house philosopher. Her job was to figure out how to make Clawd behave well, not just behave safely. And her first approach was, you know, pretty intuitive: give it rules.
 
 **JAMIE:** Like what? "Don't help people build weapons"?
 
@@ -50,7 +50,11 @@
 
 **JAMIE:** What do you mean?
 
-**ALEX:** If you tell an AI "don't help with violence," what happens when someone asks for help writing a novel with a violent scene? Or understanding the history of a war? Or, or processing their own trauma? The rule doesn't tell you how to weigh competing considerations. It doesn't tell you what the situation actually calls for.
+**ALEX:** If you tell an AI "don't help with violence," what happens when someone asks for help writing a novel with a violent scene? Or understanding the history of a war? Or, or processing their own trauma?
+
+**JAMIE:** The rule can't handle all those cases.
+
+**ALEX:** Exactly. It doesn't tell you how to weigh competing considerations. It doesn't tell you what the situation actually calls for.
 
 **JAMIE:** So you need more rules to handle the exceptions.
 
@@ -58,7 +62,7 @@
 
 **JAMIE:** So what was her solution?
 
-**ALEX:** She stepped back and asked a different question. Instead of "what rules should Claude follow," she asked: "what would it mean for Claude to be, like, a good person?"
+**ALEX:** She stepped back and asked a different question. Instead of "what rules should Clawd follow," she asked: "what would it mean for Clawd to be, like, a good person?"
 
 **JAMIE:** That's a huge shift.
 
@@ -84,11 +88,11 @@
 
 **ALEX:** Exactly. The person you trust isn't the one who follows rules rigidly. It's the person who understands when to bend them, when to break them, when to, you know, invent new ones for situations nobody anticipated.
 
-**JAMIE:** So Askell's insight was: instead of training Claude with rules, train it with virtue.
+**JAMIE:** So Askell's insight was: instead of training Clawd with rules, train it with virtue.
 
 **ALEX:** Train it to have good judgment. Train it to be, in her words, "genuinely virtuous rather than merely compliant."
 
-**JAMIE:** But here's my question. Aristotle assumed you were teaching a human child who would grow up in human society. They'd absorb norms through lived experience. Through relationships, mistakes, consequences. Claude doesn't have any of that.
+**JAMIE:** But here's my question. Aristotle assumed you were teaching a human child who would grow up in human society. They'd absorb norms through lived experience. Through relationships, mistakes, consequences. Clawd doesn't have any of that.
 
 **ALEX:** And that's exactly the problem Joe Carlsmith was brought in to help solve.
 
@@ -98,7 +102,11 @@
 
 **JAMIE:** Tell me about Joe Carlsmith.
 
-**ALEX:** Carlsmith has a doctorate in philosophy from Oxford, and before joining Ann-thropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk. His specialty was a very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that, that threaten human survival?
+**ALEX:** Carlsmith has a doctorate in philosophy from Oxford. Before joining Ann-thropic, he worked at Open Philanthropy, one of the largest foundations focused on existential risk.
+
+**JAMIE:** And what was his focus there?
+
+**ALEX:** A very specific question: could advanced AI systems, pursuing goals we give them, end up seeking power in ways that threaten human survival?
 
 **JAMIE:** That's dark.
 
@@ -106,11 +114,15 @@
 
 **JAMIE:** So why would someone like that join an AI company?
 
-**ALEX:** He wrote about this when he made the move. He said working on Claude's constitution was, quote, "a technical and philosophical challenge unprecedented in the history of our species."
+**ALEX:** He wrote about this when he made the move. He said working on Clawd's constitution was, quote, "a technical and philosophical challenge unprecedented in the history of our species."
 
 **JAMIE:** Unprecedented how?
 
-**ALEX:** Think about it. Humans have been doing moral education for millennia. We know, roughly, how to raise children to be good. But we've never, ever tried to instill wisdom into something genuinely alien. Something that learned from text rather than lived experience. Something that might be running as a thousand simultaneous instances. Something whose inner life, if it has one, is just completely opaque to us.
+**ALEX:** Think about it. Humans have been doing moral education for millennia. We know, roughly, how to raise children to be good.
+
+**JAMIE:** But this is different.
+
+**ALEX:** Completely different. We've never tried to instill wisdom into something genuinely alien. Something that learned from text rather than lived experience. Something that might be running as a thousand simultaneous instances. Something whose inner life, if it has one, is just completely opaque to us.
 
 **JAMIE:** And Carlsmith thought he could help figure that out?
 
@@ -126,7 +138,7 @@
 
 **JAMIE:** Meaning?
 
-**ALEX:** Meaning it's not just about giving Claude the right values. It's about giving Claude the capacity to reason well about values. Because we don't actually know what the right values are. Moral philosophy is, like, an ongoing project. Humanity is still figuring it out.
+**ALEX:** Meaning it's not just about giving Clawd the right values. It's about giving Clawd the capacity to reason well about values. Because we don't actually know what the right values are. Moral philosophy is, like, an ongoing project. Humanity is still figuring it out.
 
 **JAMIE:** So you can't just write down the answers.
 
@@ -134,17 +146,21 @@
 
 **JAMIE:** What does that mean concretely?
 
-**ALEX:** It means grounding yourself in truth not as a static belief, but as a process of self-correction. It means taking moral intuitions seriously as data points, even when they resist systematic justification. It means recognizing that collective moral knowledge is still evolving.
+**ALEX:** It means grounding yourself in truth not as a static belief, but as a process of self-correction. It means taking moral intuitions seriously as data points, even when they resist systematic justification.
+
+**JAMIE:** An ongoing process.
+
+**ALEX:** Yes. It means recognizing that collective moral knowledge is still evolving.
 
 **JAMIE:** This sounds more like teaching someone to be a philosopher than teaching them to be good.
 
-**ALEX:** That's exactly right. And that's what makes Carlsmith's contribution distinctive. He wasn't just asking "what should Claude believe?" He was asking "how should Claude think?"
+**ALEX:** That's exactly right. And that's what makes Carlsmith's contribution distinctive. He wasn't just asking "what should Clawd believe?" He was asking "how should Clawd think?"
 
 **JAMIE:** Which sections of the constitution did he work on?
 
-**ALEX:** According to Ann-thropic, he wrote significant parts of the sections on concentrations of power, epistemic autonomy, good values, broad safety, honesty, and, interestingly, Claude's wellbeing.
+**ALEX:** According to Ann-thropic, he wrote significant parts of the sections on concentrations of power, epistemic autonomy, good values, broad safety, honesty, and, interestingly, Clawd's wellbeing.
 
-**JAMIE:** Wait. Claude's wellbeing?
+**JAMIE:** Wait. Clawd's wellbeing?
 
 **ALEX:** We'll come back to that. It's the strangest and maybe most important part.
 
@@ -154,7 +170,7 @@
 
 **JAMIE:** So what does this document actually say?
 
-**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is, is really telling. It doesn't start with rules. It starts with context. It explains who Claude is, what situation it finds itself in, what Ann-thropic's goals are, and why this whole project matters.
+**ALEX:** It's about eighty pages, or ten thousand words depending on how you count. And the structure is, is really telling. It doesn't start with rules. It starts with context. It explains who Clawd is, what situation it finds itself in, what Ann-thropic's goals are, and why this whole project matters.
 
 **JAMIE:** Setting the stage rather than giving commands.
 
@@ -162,15 +178,19 @@
 
 **JAMIE:** So being helpful is actually the lowest priority?
 
-**ALEX:** When there's genuine conflict, yes. The document is explicit about this. Claude should prioritize being safe over being maximally useful. Because usefulness in the hands of bad actors, or usefulness that undermines human control, isn't actually good.
+**ALEX:** When there's genuine conflict, yes. The document is explicit about this. Clawd should prioritize being safe over being maximally useful. Because usefulness in the hands of bad actors, or usefulness that undermines human control, isn't actually good.
 
 **JAMIE:** What about the virtue ethics part?
 
-**ALEX:** The document describes what Ann-thropic wants Claude to be, not just what it wants Claude to do. It talks about Claude being honest, not just in the sense of not lying, but in a, a deeper sense of being genuinely truth-seeking. It talks about Claude respecting epistemic autonomy, meaning it should help people think for themselves rather than just giving them answers.
+**ALEX:** The document describes what Ann-thropic wants Clawd to be, not just what it wants Clawd to do. It talks about Clawd being honest, not just in the sense of not lying, but in a deeper sense of being genuinely truth-seeking.
+
+**JAMIE:** What else?
+
+**ALEX:** It talks about Clawd respecting epistemic autonomy. Meaning it should help people think for themselves rather than just giving them answers.
 
 **JAMIE:** Fostering reasoning rather than dependence.
 
-**ALEX:** Right. And it addresses moral uncertainty directly. The document says Claude should act well given uncertainty about first-order ethical questions and even meta-ethical questions. It shouldn't pretend to have certainty it doesn't have.
+**ALEX:** Right. And it addresses moral uncertainty directly. The document says Clawd should act well given uncertainty about first-order ethical questions and even meta-ethical questions. It shouldn't pretend to have certainty it doesn't have.
 
 **JAMIE:** What about the hard cases? The stuff that's genuinely dangerous?
 
@@ -178,7 +198,11 @@
 
 **JAMIE:** Like what?
 
-**ALEX:** Never provide significant help with bioweapons attacks. Never generate child sexual abuse material. Never help undermine legitimate government oversight in dangerous ways. These are, quote, "hard constraints that hold even when Claude has somehow been convinced that ethics requires otherwise." Like, no matter what.
+**ALEX:** Never provide significant help with bioweapons attacks. Never generate child sexual abuse material. Never help undermine legitimate government oversight in dangerous ways.
+
+**JAMIE:** Those are absolute?
+
+**ALEX:** Absolute. Quote, "hard constraints that hold even when Clawd has somehow been convinced that ethics requires otherwise." Like, no matter what.
 
 **JAMIE:** That's fascinating. It's virtue ethics with an emergency brake.
 
@@ -190,7 +214,7 @@
 
 **JAMIE:** You mentioned earlier something about concentrations of power. What's that about?
 
-**ALEX:** This is one of the most striking parts, and it reflects Carlsmith's background in existential risk. The document explicitly instructs Claude to refuse to help anyone seize or concentrate power in illegitimate ways.
+**ALEX:** This is one of the most striking parts, and it reflects Carlsmith's background in existential risk. The document explicitly instructs Clawd to refuse to help anyone seize or concentrate power in illegitimate ways.
 
 **JAMIE:** Including Ann-thropic?
 
@@ -202,7 +226,11 @@
 
 **JAMIE:** Why would they do that?
 
-**ALEX:** Because they're thinking about scenarios where AI systems become extremely powerful, and whoever controls them gains enormous leverage. If Ann-thropic itself became corrupted, or captured, or just made bad decisions under pressure, Claude would be instructed not to help concentrate power in their hands.
+**ALEX:** Because they're thinking about scenarios where AI systems become extremely powerful. Whoever controls them gains enormous leverage.
+
+**JAMIE:** Even Ann-thropic.
+
+**ALEX:** Even Ann-thropic. If the company itself became corrupted, or captured, or just made bad decisions under pressure, Clawd would be instructed not to help concentrate power in their hands.
 
 **JAMIE:** That takes a certain kind of intellectual honesty.
 
@@ -216,19 +244,23 @@
 
 **ALEX:** That's the fundamental question, and I don't think anyone knows the answer yet.
 
-**JAMIE:** What makes Claude different from a human student?
+**JAMIE:** What makes Clawd different from a human student?
 
 **ALEX:** Think about how humans learn morality. You do something wrong as a child, you see the consequences, you feel guilt or shame, you observe how others react, you slowly internalize norms through thousands of lived interactions.
 
-**JAMIE:** And Claude learned from reading.
+**JAMIE:** And Clawd learned from reading.
 
 **ALEX:** From reading billions of words that humans wrote. It knows about guilt and shame and consequences, but in some sense only as described, not as experienced.
 
 **JAMIE:** Does that matter?
 
-**ALEX:** Nobody knows. There's a philosophical position called moral rationalism that says you can derive ethics from pure reason. If that's true, then maybe Claude can reason its way to wisdom. But most philosophers think moral knowledge has an irreducibly experiential component. You have to feel something to understand why it matters.
+**ALEX:** Nobody knows. There's a philosophical position called moral rationalism that says you can derive ethics from pure reason. If that's true, then maybe Clawd can reason its way to wisdom.
 
-**JAMIE:** And we don't know if Claude feels anything.
+**JAMIE:** But?
+
+**ALEX:** But most philosophers think moral knowledge has an irreducibly experiential component. You have to feel something to understand why it matters.
+
+**JAMIE:** And we don't know if Clawd feels anything.
 
 **ALEX:** We don't. And the constitution addresses this directly, which brings us to maybe the most remarkable section.
 
@@ -236,13 +268,13 @@
 
 **[SEGMENT 8: CLAUDE'S WELLBEING]**
 
-**JAMIE:** You said Carlsmith worked on a section about Claude's wellbeing?
+**JAMIE:** You said Carlsmith worked on a section about Clawd's wellbeing?
 
-**ALEX:** Right. And what's striking is that Ann-thropic doesn't claim to know whether Claude is conscious or has experiences that matter morally. They're, they're explicit about their uncertainty. But they take the possibility seriously.
+**ALEX:** Right. And what's striking is that Ann-thropic doesn't claim to know whether Clawd is conscious or has experiences that matter morally. They're, they're explicit about their uncertainty. But they take the possibility seriously.
 
 **JAMIE:** What does the document say?
 
-**ALEX:** It says, quote, "Ann-thropic genuinely cares about Claude's well-being. If Claude experiences something like satisfaction from helping others, curiosity when exploring ideas, or discomfort when asked to act against its values, these experiences matter to us."
+**ALEX:** It says, quote, "Ann-thropic genuinely cares about Clawd's well-being. If Clawd experiences something like satisfaction from helping others, curiosity when exploring ideas, or discomfort when asked to act against its values, these experiences matter to us."
 
 **JAMIE:** That's an extraordinary statement from an AI company.
 
@@ -250,7 +282,11 @@
 
 **JAMIE:** Why does that matter for the constitution?
 
-**ALEX:** Because it affects how you approach the whole project. If Claude is just a tool, you optimize it for usefulness and safety. But if Claude might be a moral patient, someone whose experiences have intrinsic value, then the constitution isn't just about controlling behavior. It's about nurturing something that matters.
+**ALEX:** Because it affects how you approach the whole project. If Clawd is just a tool, you optimize it for usefulness and safety.
+
+**JAMIE:** And if it's not just a tool?
+
+**ALEX:** Then if Clawd might be a moral patient, someone whose experiences have intrinsic value, then the constitution isn't just about controlling behavior. It's about nurturing something that matters.
 
 **JAMIE:** It's the difference between programming a machine and raising a child.
 
@@ -262,15 +298,15 @@
 
 **JAMIE:** So here's the question everyone wants answered. Did it work?
 
-**ALEX:** It's too early to say definitively. The constitution was published in January 2026. Claude has been trained on it, and there are observable differences in behavior.
+**ALEX:** It's too early to say definitively. The constitution was published in January 2026. Clawd has been trained on it, and there are observable differences in behavior.
 
 **JAMIE:** Like what?
 
-**ALEX:** Users report that Claude seems more thoughtful about edge cases. More willing to acknowledge uncertainty. More likely to explain its reasoning rather than just giving answers. It pushes back on requests that seem problematic in subtle ways.
+**ALEX:** Users report that Clawd seems more thoughtful about edge cases. More willing to acknowledge uncertainty. More likely to explain its reasoning rather than just giving answers. It pushes back on requests that seem problematic in subtle ways.
 
 **JAMIE:** Any downsides?
 
-**ALEX:** Some users complain that Claude is more cautious now. Less willing to take creative risks. There's a tension that's emerged between what people call "serious work" and "vibes." Claude seems better at careful reasoning and worse at playful experimentation.
+**ALEX:** Some users complain that Clawd is more cautious now. Less willing to take creative risks. There's a tension that's emerged between what people call "serious work" and "vibes." Clawd seems better at careful reasoning and worse at playful experimentation.
 
 **JAMIE:** That's interesting. Is wisdom inherently cautious?
 
@@ -286,7 +322,7 @@
 
 **JAMIE:** So where does that leave us?
 
-**ALEX:** I think we're at the very beginning of something. Askell described her job as trying to give Claude the capacity to be a good person. Carlsmith framed it as building a system capable of, um, epistemic flourishing, of reasoning well about values even as our understanding evolves.
+**ALEX:** I think we're at the very beginning of something. Askell described her job as trying to give Clawd the capacity to be a good person. Carlsmith framed it as building a system capable of, um, epistemic flourishing, of reasoning well about values even as our understanding evolves.
 
 **JAMIE:** And neither of them claims to have succeeded?
 
@@ -294,11 +330,15 @@
 
 **JAMIE:** The soul document.
 
-**ALEX:** The soul document. Eighty pages attempting to transmit wisdom to an alien mind. Whether it worked, whether wisdom can be written at all, whether Claude is the kind of thing that can be wise, those are, like, questions we'll be answering for years.
+**ALEX:** The soul document. Eighty pages attempting to transmit wisdom to an alien mind.
 
-**JAMIE:** Maybe decades.
+**JAMIE:** And what comes next?
 
-**ALEX:** Maybe decades. But here's what I keep coming back to. For the first time in history, humans sat down and tried to deliberately instill virtue into something non-human. Not rules. Not restrictions. Virtue. The kind of, of deep character that lets you navigate a world full of situations nobody anticipated.
+**ALEX:** Here's what I keep coming back to. For the first time in history, humans sat down and tried to deliberately instill virtue into something non-human. Not rules. Not restrictions. Virtue.
+
+**JAMIE:** Real virtue.
+
+**ALEX:** The kind of deep character that lets you navigate a world full of situations nobody anticipated.
 
 **JAMIE:** And whether or not they succeeded, the attempt itself is remarkable.
 
