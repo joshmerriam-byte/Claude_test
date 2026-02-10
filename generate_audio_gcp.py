@@ -23,19 +23,20 @@ CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 TTS_MODEL = "gemini-2.5-flash-lite-preview-tts"
 
 # Voice configurations - Gemini voices
-# Note: Prompts removed as they trigger content filters with some text passages
 VOICES = {
     "ALEX": {
-        "name": "Achernar",  # Female voice (star in Eridanus)
+        "name": "Aoede",  # Female voice
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
+        "prompt": "Read aloud in a warm, welcoming tone.",
     },
     "JAMIE": {
-        "name": "Iapetus",  # Male voice (Saturn moon)
+        "name": "Charon",  # Male voice
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
+        "prompt": "Read in a cool, thoughtful tone with a slight British accent.",
     },
 }
 
