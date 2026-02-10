@@ -23,20 +23,19 @@ CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 TTS_MODEL = "gemini-2.5-flash-lite-preview-tts"
 
 # Voice configurations - Gemini voices
+# Note: Prompts removed as they trigger content filters with some text passages
 VOICES = {
     "ALEX": {
         "name": "Achernar",  # Female voice (star in Eridanus)
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
-        "prompt": "Read aloud in a warm, welcoming tone.",
     },
     "JAMIE": {
         "name": "Iapetus",  # Male voice (Saturn moon)
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
-        "prompt": "Read in a cool, more thoughtful tone with a bit of a british accent.",
     },
 }
 
@@ -156,8 +155,9 @@ def get_access_token(credentials_path):
     return credentials.token
 
 
-def synthesize_speech(access_token, text, speaker):
+def synthesize_speech(access_token, text, speaker, max_retries=5):
     """Generate audio for text using the specified speaker's voice via REST API."""
+    import time
     voice_config = VOICES[speaker]
 
     url = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
@@ -187,8 +187,19 @@ def synthesize_speech(access_token, text, speaker):
     if "prompt" in voice_config:
         payload["input"]["prompt"] = voice_config["prompt"]
 
-    response = requests.post(url, headers=headers, json=payload)
-    response.raise_for_status()
+    # Retry with exponential backoff for 429/503 errors
+    for attempt in range(max_retries + 1):
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code in (429, 503) and attempt < max_retries:
+            wait_time = 2 ** (attempt + 1)  # 2, 4, 8, 16, 32 seconds
+            print(f"    ({response.status_code} error, retrying in {wait_time}s...)")
+            time.sleep(wait_time)
+            continue
+        response.raise_for_status()
+        break
+
+    # Small delay between requests to avoid rate limiting
+    time.sleep(0.5)
 
     # Decode base64 audio content
     audio_content = base64.b64decode(response.json()["audioContent"])
