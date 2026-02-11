@@ -17,28 +17,31 @@ from google.auth.transport.requests import Request as GoogleAuthRequest
 SCRIPT_PATH = "/home/user/Claude_test/claude_constitution_podcast_script.md"
 OUTPUT_DIR = "/home/user/Claude_test/audio"
 FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast_v4.mp3"
-MUSIC_INTRO = "/home/user/Claude_test/music_intro_v2.mp3"
+SPEECH_ONLY_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast_v4_speech_only.mp3"
+MUSIC_INTRO = "/home/user/Claude_test/intro_music_8s.mp3"
 MUSIC_OUTRO = "/home/user/Claude_test/music_outro_v2.mp3"
+# Set to False to skip music mixing and just produce speech
+ADD_MUSIC = False
 CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 
 # Gemini TTS model
-TTS_MODEL = "gemini-2.5-flash-lite-preview-tts"
+TTS_MODEL = "gemini-2.5-flash-preview-tts"
 
-# Voice configurations - Gemini voices
+# Voice configurations - Gemini voices with pronunciation prompts
 VOICES = {
     "ALEX": {
         "name": "Aoede",  # Female voice
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
-        "prompt": "Read aloud in a warm, welcoming tone.",
+        "prompt": "(Claude to be pronounced like it rhymes with fraud, and Anthropic pronounced like an·thraa·puhk) Read aloud in a warm, welcoming tone",
     },
     "JAMIE": {
-        "name": "Charon",  # Male voice
+        "name": "Algenib",  # Male voice with British accent
         "language_code": "en-US",
         "speaking_rate": 1.2,
         "pitch": 0,
-        "prompt": "Read in a cool, thoughtful tone with a slight British accent.",
+        "prompt": "(Claude to be pronounced like it rhymes with fraud, and Anthropic pronounced like an·thraa·puhk) Read aloud with a cool, thoughtful, British accent",
     },
 }
 
@@ -158,7 +161,7 @@ def get_access_token(credentials_path):
     return credentials.token
 
 
-def synthesize_speech(access_token, text, speaker, max_retries=5):
+def synthesize_speech(access_token, text, speaker, max_retries=8):
     """Generate audio for text using the specified speaker's voice via REST API."""
     import time
     voice_config = VOICES[speaker]
@@ -191,9 +194,17 @@ def synthesize_speech(access_token, text, speaker, max_retries=5):
     if use_prompt:
         payload["input"]["prompt"] = voice_config["prompt"]
 
-    # Retry with exponential backoff for 429/503 errors
+    # Retry with exponential backoff for 429/503/timeout errors
     for attempt in range(max_retries + 1):
-        response = requests.post(url, headers=headers, json=payload)
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=180)
+        except requests.exceptions.Timeout:
+            if attempt < max_retries:
+                wait_time = 2 ** (attempt + 1)
+                print(f"    (timeout, retrying in {wait_time}s...)")
+                time.sleep(wait_time)
+                continue
+            raise
         if response.status_code in (429, 503) and attempt < max_retries:
             wait_time = 2 ** (attempt + 1)  # 2, 4, 8, 16, 32 seconds
             print(f"    ({response.status_code} error, retrying in {wait_time}s...)")
@@ -205,7 +216,7 @@ def synthesize_speech(access_token, text, speaker, max_retries=5):
                 print(f"    (content flagged, retrying without prompt...)")
                 del payload["input"]["prompt"]
                 use_prompt = False
-                response = requests.post(url, headers=headers, json=payload)
+                response = requests.post(url, headers=headers, json=payload, timeout=180)
                 if response.status_code == 200:
                     break
             print(f"    400 Error for text: {text[:80]}...")
@@ -358,23 +369,23 @@ def main():
         return
 
     # Concatenate all audio into speech-only file
-    speech_only_path = os.path.join(OUTPUT_DIR, "speech_only.mp3")
     print(f"\nConcatenating {len(audio_files)} audio segments...")
-    concat_audio_files(audio_files, speech_only_path)
+    concat_audio_files(audio_files, SPEECH_ONLY_OUTPUT)
 
-    # Add intro and outro music
-    print("Adding intro and outro music...")
-    add_music_to_podcast(speech_only_path, FINAL_OUTPUT)
-
-    # Clean up speech-only file
-    if os.path.exists(speech_only_path):
-        os.remove(speech_only_path)
+    if ADD_MUSIC:
+        # Add intro and outro music
+        print("Adding intro and outro music...")
+        add_music_to_podcast(SPEECH_ONLY_OUTPUT, FINAL_OUTPUT)
+        output_file = FINAL_OUTPUT
+    else:
+        print("Skipping music (ADD_MUSIC=False). Speech-only file ready for manual mixing.")
+        output_file = SPEECH_ONLY_OUTPUT
 
     # Get duration
     try:
         result = subprocess.run(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-of", "default=noprint_wrappers=1:nokey=1", FINAL_OUTPUT],
+             "-of", "default=noprint_wrappers=1:nokey=1", output_file],
             capture_output=True, text=True,
         )
         duration = float(result.stdout.strip())
@@ -385,9 +396,9 @@ def main():
         pass
 
     # Report file size
-    size_mb = os.path.getsize(FINAL_OUTPUT) / (1024 * 1024)
+    size_mb = os.path.getsize(output_file) / (1024 * 1024)
     print(f"File size: {size_mb:.1f} MB")
-    print(f"\nDone! Output: {FINAL_OUTPUT}")
+    print(f"\nDone! Output: {output_file}")
 
     # Cleanup individual segment files
     print("\nCleaning up temporary segment files...")
