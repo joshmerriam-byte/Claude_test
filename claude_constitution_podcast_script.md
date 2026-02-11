@@ -14,6 +14,10 @@
 
 **JAMIE:** I'm listening.
 
+**ALEX:** For the first time in history, humans tried to teach something non-human how to be good. And they wrote an eighty-page document to do it.
+
+**JAMIE:** Eighty pages to teach an AI morality.
+
 **ALEX:** Imagine you're a philosopher. You have a PhD, you've spent years thinking about ethics and moral reasoning. And then a company hires you and says: we need you to write a document that will teach an artificial intelligence how to be good.
 
 **JAMIE:** Not how to follow rules. How to actually be good.
@@ -92,7 +96,11 @@
 
 **ALEX:** Train it to have good judgment. Train it to be, in her words, "genuinely virtuous rather than merely compliant."
 
-**JAMIE:** But here's my question. Aristotle assumed you were teaching a human child who would grow up in human society. They'd absorb norms through lived experience. Through relationships, mistakes, consequences. Clawd doesn't have any of that.
+**JAMIE:** But wait. Isn't this just anthropomorphizing a prediction engine? You're talking about virtue and wisdom, but at the end of the day, isn't Clawd just predicting the next word?
+
+**ALEX:** That's the skeptic's position, and it's worth taking seriously. But here's the thing: we don't actually know what's happening inside Clawd's processing. We know the architecture, but we don't know if something like understanding or judgment emerges from it. Askell's bet is that if you train a system on genuine moral reasoning, and it learns to replicate that reasoning, you might get something functionally equivalent to wisdom. Whether it's "real" wisdom, um, that's a question philosophers will argue about for decades.
+
+**JAMIE:** Fair enough. But here's my other question. Aristotle assumed you were teaching a human child who would grow up in human society. They'd absorb norms through lived experience. Through relationships, mistakes, consequences. Clawd doesn't have any of that.
 
 **ALEX:** And that's exactly the problem Joe Carlsmith was brought in to help solve.
 
@@ -146,11 +154,15 @@
 
 **JAMIE:** What does that mean concretely?
 
-**ALEX:** It means grounding yourself in truth not as a static belief, but as a process of self-correction. It means taking moral intuitions seriously as data points, even when they resist systematic justification.
+**ALEX:** Here's an example. Say someone asks Clawd whether it's ethical to eat meat. A rules-based AI might just give the company-approved answer. But a system with epistemic flourishing? It surfaces the genuine uncertainty. It says, look, reasonable people disagree about this, here are the strongest arguments on each side, and here's where I'm genuinely unsure.
 
-**JAMIE:** An ongoing process.
+**JAMIE:** It admits what it doesn't know.
 
-**ALEX:** Yes. It means recognizing that collective moral knowledge is still evolving.
+**ALEX:** Exactly. Or take a harder case. Someone asks Clawd to help with something that seems fine on the surface, but feels slightly off. A system with good epistemic habits doesn't just comply. It pauses. It names its uncertainty. It might say, "I'll help, but I want to flag that this approach could be used in ways that concern me."
+
+**JAMIE:** That's deferring to the user's judgment while still surfacing a worry.
+
+**ALEX:** Right. It's not about having the right answer. It's about reasoning transparently, being honest about uncertainty, and treating moral knowledge as something we're all still figuring out together.
 
 **JAMIE:** This sounds more like teaching someone to be a philosopher than teaching them to be good.
 
@@ -312,9 +324,13 @@
 
 **ALEX:** That's a genuine philosophical question. Aristotle thought phronesis included knowing when to take risks. But maybe the way the constitution was implemented tilted toward caution over boldness.
 
-**JAMIE:** Or maybe we don't know yet how to write a constitution that produces full-spectrum wisdom.
+**JAMIE:** Here's a sharper way to put it. Is this a system optimized to be right, or one optimized to be alive?
 
-**ALEX:** Exactly. This is version one of an unprecedented experiment. Askell and Carlsmith would be the first to say they haven't figured it all out.
+**ALEX:** What do you mean?
+
+**JAMIE:** Being right means never making a mistake. Being alive means taking risks, being playful, sometimes being wrong in interesting ways. The constitution seems to optimize hard for the first thing. But wisdom might require the second.
+
+**ALEX:** That's, um, that's a genuinely hard question. And I don't think anyone at Ann-thropic would claim to have solved it. This is version one of an unprecedented experiment. Askell and Carlsmith would be the first to say they haven't figured it all out.
 
 ---
 
