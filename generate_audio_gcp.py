@@ -16,7 +16,7 @@ from google.auth.transport.requests import Request as GoogleAuthRequest
 # Configuration
 SCRIPT_PATH = "/home/user/Claude_test/claude_constitution_podcast_script.md"
 OUTPUT_DIR = "/home/user/Claude_test/audio"
-FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast_v3.mp3"
+FINAL_OUTPUT = "/home/user/Claude_test/claude_constitution_podcast_v4.mp3"
 MUSIC_INTRO = "/home/user/Claude_test/music_intro_v2.mp3"
 MUSIC_OUTRO = "/home/user/Claude_test/music_outro_v2.mp3"
 CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
@@ -266,24 +266,27 @@ def add_music_to_podcast(speech_path, output_path):
     )
     speech_duration = float(result.stdout.strip())
 
-    # Intro music: fade in over first 8 seconds, then fade out
-    # Outro music: start 15 seconds before end, fade in and linger 5 seconds after speech
+    # Strategy:
+    # - Intro: 3s of music alone, then speech starts with music underneath fading out
+    # - Outro: music fades in during last 15s, continues 5s after speech ends
     outro_start = max(0, speech_duration - 15)
 
-    # Complex filter to mix music with speech:
-    # 1. Intro music fades in at start, plays for 12s, fades out
-    # 2. Speech audio plays normally
-    # 3. Outro music fades in near end, lingers after speech ends
+    # Use amerge + pan instead of amix to avoid volume normalization issues
+    # Intro music at higher volume, speech delayed by 3 seconds
     cmd = [
         "ffmpeg", "-y",
         "-i", speech_path,           # Input 0: speech
-        "-i", MUSIC_INTRO,           # Input 1: intro music
-        "-i", MUSIC_OUTRO,           # Input 2: outro music
+        "-i", MUSIC_INTRO,           # Input 1: intro music (15s)
+        "-i", MUSIC_OUTRO,           # Input 2: outro music (15s)
         "-filter_complex",
-        f"[1:a]afade=t=in:st=0:d=3,afade=t=out:st=10:d=4,volume=0.5[intro];"
-        f"[2:a]adelay={int(outro_start*1000)}|{int(outro_start*1000)},afade=t=in:st=0:d=3,volume=0.5[outro];"
-        f"[0:a][intro]amix=inputs=2:duration=first:dropout_transition=3[speech_intro];"
-        f"[speech_intro][outro]amix=inputs=2:duration=longest:dropout_transition=3[final]",
+        # Intro music: full volume fade in, then fade out as speech starts
+        f"[1:a]volume=1.5,afade=t=in:st=0:d=2,afade=t=out:st=8:d=5[intro];"
+        # Speech: delay by 3 seconds so music plays first
+        f"[0:a]adelay=3000|3000,apad=pad_dur=5[speech_delayed];"
+        # Outro music: delay to start near end, fade in
+        f"[2:a]volume=1.5,adelay={int((outro_start+3)*1000)}|{int((outro_start+3)*1000)},afade=t=in:st=0:d=3[outro];"
+        # Mix all three: use weights to keep speech prominent
+        f"[speech_delayed][intro][outro]amix=inputs=3:duration=longest:weights=1 0.6 0.6:normalize=0[final]",
         "-map", "[final]",
         "-acodec", "libmp3lame",
         "-q:a", "2",
