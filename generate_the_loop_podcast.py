@@ -22,7 +22,7 @@ SPEECH_ONLY_OUTPUT = "/home/user/Claude_test/the_loop_podcast_speech_only.mp3"
 MUSIC_INTRO = "/home/user/Claude_test/intro_music_8s.mp3"
 MUSIC_OUTRO = "/home/user/Claude_test/music_outro_v2.mp3"
 # Set to False to skip music mixing and just produce speech
-ADD_MUSIC = False
+ADD_MUSIC = True
 CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
 
 # Gemini TTS model
