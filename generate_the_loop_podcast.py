@@ -1,0 +1,464 @@
+#!/usr/bin/env python3
+"""
+Generate podcast audio for "The Loop That Isn't There" using Google Cloud
+Text-to-Speech with Gemini voices.  Same voice and music setup as the
+Claude constitution podcast, adapted for the new script.
+"""
+
+import os
+import re
+import json
+import base64
+import subprocess
+import requests
+from google.oauth2 import service_account
+from google.auth.transport.requests import Request as GoogleAuthRequest
+
+# Configuration
+SCRIPT_PATH = "/home/user/Claude_test/The_Loop_That_Isnt_There_v3.md"
+OUTPUT_DIR = "/home/user/Claude_test/audio"
+FINAL_OUTPUT = "/home/user/Claude_test/the_loop_podcast.mp3"
+SPEECH_ONLY_OUTPUT = "/home/user/Claude_test/the_loop_podcast_speech_only.mp3"
+MUSIC_INTRO = "/home/user/Claude_test/intro_music_8s.mp3"
+MUSIC_OUTRO = "/home/user/Claude_test/old_samples/music_outro_v2.mp3"
+# Set to False to skip music mixing and just produce speech
+ADD_MUSIC = True
+CREDENTIALS_PATH = "/home/user/Claude_test/gcp_credentials.json"
+
+# Gemini TTS model
+TTS_MODEL = "gemini-2.5-flash-preview-tts"
+
+# Voice configurations - same voices as the Claude constitution podcast
+VOICES = {
+    "ALEX": {
+        "name": "Aoede",  # Female voice
+        "language_code": "en-US",
+        "speaking_rate": 1.2,
+        "pitch": 0,
+        "prompt": (
+            "(Urumau pronounced oo-roo-MAH-oo, "
+            "Lyttelton pronounced LIT-ul-tun, "
+            "Korimako pronounced KOR-ih-MAH-koh, "
+            "LPC pronounced L P C, "
+            "MTB pronounced M T B) "
+            "Read aloud in a warm, welcoming tone"
+        ),
+    },
+    "JAMIE": {
+        "name": "Algenib",  # Male voice with British accent
+        "language_code": "en-US",
+        "speaking_rate": 1.2,
+        "pitch": 0,
+        "prompt": (
+            "(Urumau pronounced oo-roo-MAH-oo, "
+            "Lyttelton pronounced LIT-ul-tun, "
+            "Korimako pronounced KOR-ih-MAH-koh, "
+            "LPC pronounced L P C, "
+            "MTB pronounced M T B) "
+            "Read aloud with a cool, thoughtful, British accent"
+        ),
+    },
+}
+
+# Pause durations (in seconds)
+PAUSE_BETWEEN_LINES = 0.3
+PAUSE_BETWEEN_SEGMENTS = 0.8
+PAUSE_AFTER_SECTION_HEADER = 0.5
+
+
+def parse_script(filepath):
+    """Parse the markdown script into a sequence of (type, speaker, text)
+    tuples and structural markers.
+
+    Handles the formatting used in The_Loop_That_Isnt_There_v3.md:
+      - Long dash dividers (--------...) as segment boundaries
+      - Section headers like  ## \\[SEGMENT 1: ...\\]  or  ## \\[INTRO\\]
+      - Speaker lines: **ALEX:** / **JAMIE:**
+      - Backslash line-continuation markers
+    """
+    with open(filepath, "r") as f:
+        content = f.read()
+
+    lines = content.split("\n")
+    in_dialogue = False
+    dialogue_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Start capturing after the first long-dash divider
+        if re.match(r"^-{4,}$", stripped) and not in_dialogue:
+            in_dialogue = True
+            continue
+
+        # Stop at Sources or Production Notes if present
+        if stripped.startswith("## Sources") or stripped.startswith("## Production"):
+            break
+
+        if in_dialogue:
+            dialogue_lines.append(line)
+
+    # Parse dialogue lines into segments
+    segments = []
+    current_speaker = None
+    current_text = []
+
+    for line in dialogue_lines:
+        stripped = line.strip()
+
+        # Long-dash segment dividers
+        if re.match(r"^-{4,}$", stripped):
+            if current_speaker and current_text:
+                segments.append(("dialogue", current_speaker, " ".join(current_text)))
+                current_text = []
+                current_speaker = None
+            segments.append(("pause", "", ""))
+            continue
+
+        # Section headers: ## \[SEGMENT 1: ...\]  or  ## \[INTRO\]  etc.
+        section_match = re.match(r"^##\s*\\\[(.+?)\\?\]$", stripped)
+        if section_match:
+            if current_speaker and current_text:
+                segments.append(("dialogue", current_speaker, " ".join(current_text)))
+                current_text = []
+                current_speaker = None
+            section_name = section_match.group(1)
+            segments.append(("section", section_name, ""))
+            continue
+
+        # Also handle un-escaped bracket headers: ## [SEGMENT ...]
+        section_match2 = re.match(r"^##\s*\[(.+?)\]$", stripped)
+        if section_match2:
+            if current_speaker and current_text:
+                segments.append(("dialogue", current_speaker, " ".join(current_text)))
+                current_text = []
+                current_speaker = None
+            section_name = section_match2.group(1)
+            segments.append(("section", section_name, ""))
+            continue
+
+        # Also handle bold-bracket headers: **[SEGMENT ...]**
+        if stripped.startswith("**[") and stripped.endswith("]**"):
+            if current_speaker and current_text:
+                segments.append(("dialogue", current_speaker, " ".join(current_text)))
+                current_text = []
+                current_speaker = None
+            section_name = stripped.strip("*[]")
+            segments.append(("section", section_name, ""))
+            continue
+
+        # Speaker lines: **ALEX:** or **JAMIE:**
+        speaker_match = re.match(r"\*\*(ALEX|JAMIE):\*\*\s*(.*)", stripped)
+        if speaker_match:
+            if current_speaker and current_text:
+                segments.append(("dialogue", current_speaker, " ".join(current_text)))
+                current_text = []
+
+            current_speaker = speaker_match.group(1)
+            text = speaker_match.group(2).strip()
+            # Remove trailing backslash (line-continuation marker)
+            text = text.rstrip("\\").strip()
+            if text:
+                current_text.append(text)
+            continue
+
+        # Continuation of current speaker's text
+        if current_speaker and stripped:
+            # Remove trailing backslash
+            cleaned = stripped.rstrip("\\").strip()
+            if cleaned:
+                current_text.append(cleaned)
+
+    # Flush final segment
+    if current_speaker and current_text:
+        segments.append(("dialogue", current_speaker, " ".join(current_text)))
+
+    return segments
+
+
+def clean_text_for_tts(text):
+    """Clean markdown formatting for TTS."""
+    # Remove markdown bold/italic
+    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+    text = re.sub(r'\*([^*]+)\*', r'\1', text)
+
+    # Replace special punctuation
+    text = text.replace("...", "...")
+    text = text.replace(" -- ", ", ")
+    text = text.replace("--", ", ")
+    text = text.replace('\u201c', '"').replace('\u201d', '"')
+    text = text.replace('\u2018', "'").replace('\u2019', "'")
+    # Replace em-dash used in the script
+    text = text.replace(" --- ", ", ")
+    text = text.replace("---", ", ")
+    text = text.replace("\u2014", ", ")
+
+    # Handle abbreviations relevant to this podcast
+    text = text.replace("LPC", "L P C")
+    text = text.replace("MTB", "M T B")
+    text = text.replace("GDP", "G D P")
+
+    # Clean up remaining markdown link syntax
+    text = re.sub(r'\[([^\]]+)\]', r'\1', text)
+
+    return text.strip()
+
+
+def get_access_token(credentials_path):
+    """Get an access token from service account credentials."""
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials_path,
+        scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    )
+    credentials.refresh(GoogleAuthRequest())
+    return credentials.token
+
+
+def synthesize_speech(access_token, text, speaker, max_retries=8):
+    """Generate audio for text using the specified speaker's voice via REST API."""
+    import time
+    voice_config = VOICES[speaker]
+
+    url = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "audioConfig": {
+            "audioEncoding": "MP3",
+            "pitch": voice_config["pitch"],
+            "speakingRate": voice_config["speaking_rate"],
+        },
+        "input": {
+            "text": text,
+        },
+        "voice": {
+            "languageCode": voice_config["language_code"],
+            "modelName": TTS_MODEL,
+            "name": voice_config["name"],
+        },
+    }
+
+    # Add prompt for voice style if available
+    use_prompt = "prompt" in voice_config
+    if use_prompt:
+        payload["input"]["prompt"] = voice_config["prompt"]
+
+    # Retry with exponential backoff for 429/503/timeout errors
+    for attempt in range(max_retries + 1):
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=180)
+        except requests.exceptions.Timeout:
+            if attempt < max_retries:
+                wait_time = 2 ** (attempt + 1)
+                print(f"    (timeout, retrying in {wait_time}s...)")
+                time.sleep(wait_time)
+                continue
+            raise
+        if response.status_code in (429, 503) and attempt < max_retries:
+            wait_time = 2 ** (attempt + 1)  # 2, 4, 8, 16, 32 seconds
+            print(f"    ({response.status_code} error, retrying in {wait_time}s...)")
+            time.sleep(wait_time)
+            continue
+        if response.status_code == 400:
+            # Try without prompt if content is flagged
+            if use_prompt:
+                print(f"    (content flagged, retrying without prompt...)")
+                del payload["input"]["prompt"]
+                use_prompt = False
+                response = requests.post(url, headers=headers, json=payload, timeout=180)
+                if response.status_code == 200:
+                    break
+            print(f"    400 Error for text: {text[:80]}...")
+            print(f"    Response: {response.text}")
+        response.raise_for_status()
+        break
+
+    # Small delay between requests to avoid rate limiting
+    time.sleep(0.5)
+
+    # Decode base64 audio content
+    audio_content = base64.b64decode(response.json()["audioContent"])
+    return audio_content
+
+
+def generate_silence(duration_seconds, output_path):
+    """Generate a silent MP3 file of the given duration."""
+    cmd = [
+        "ffmpeg", "-y",
+        "-f", "lavfi",
+        "-i", f"anullsrc=r=24000:cl=mono",
+        "-t", str(duration_seconds),
+        "-acodec", "libmp3lame",
+        "-q:a", "4",
+        output_path,
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+
+
+def concat_audio_files(audio_files, output_path):
+    """Concatenate multiple audio files into a single file using ffmpeg."""
+    list_path = os.path.join(OUTPUT_DIR, "concat_list.txt")
+    with open(list_path, "w") as f:
+        for audio_file in audio_files:
+            f.write(f"file '{audio_file}'\n")
+
+    cmd = [
+        "ffmpeg", "-y",
+        "-f", "concat",
+        "-safe", "0",
+        "-i", list_path,
+        "-acodec", "libmp3lame",
+        "-q:a", "2",
+        output_path,
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+
+    os.remove(list_path)
+
+
+def add_music_to_podcast(speech_path, output_path):
+    """Add intro and outro music to the podcast."""
+    # Get duration of speech audio
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", speech_path],
+        capture_output=True, text=True,
+    )
+    speech_duration = float(result.stdout.strip())
+
+    # Strategy:
+    # - Intro: 3s of music alone, then speech starts with music underneath fading out
+    # - Outro: music fades in during last 15s, continues 5s after speech ends
+    outro_start = max(0, speech_duration - 15)
+
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", speech_path,           # Input 0: speech
+        "-i", MUSIC_INTRO,           # Input 1: intro music
+        "-i", MUSIC_OUTRO,           # Input 2: outro music
+        "-filter_complex",
+        # Intro music: full volume fade in, then fade out as speech starts
+        f"[1:a]volume=1.5,afade=t=in:st=0:d=2,afade=t=out:st=8:d=5[intro];"
+        # Speech: delay by 3 seconds so music plays first
+        f"[0:a]adelay=3000|3000,apad=pad_dur=5[speech_delayed];"
+        # Outro music: delay to start near end, fade in
+        f"[2:a]volume=1.5,adelay={int((outro_start+3)*1000)}|{int((outro_start+3)*1000)},afade=t=in:st=0:d=3[outro];"
+        # Mix all three: use weights to keep speech prominent
+        f"[speech_delayed][intro][outro]amix=inputs=3:duration=longest:weights=1 0.6 0.6:normalize=0[final]",
+        "-map", "[final]",
+        "-acodec", "libmp3lame",
+        "-q:a", "2",
+        output_path,
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+
+
+def main():
+    # Create output directory
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    # Get access token for API calls
+    print("Authenticating with Google Cloud...")
+    access_token = get_access_token(CREDENTIALS_PATH)
+    print(f"Using Gemini TTS model: {TTS_MODEL}")
+    print(f"Voices: ALEX={VOICES['ALEX']['name']}, JAMIE={VOICES['JAMIE']['name']}")
+    print(f"Speaking rate: {VOICES['ALEX']['speaking_rate']}x")
+
+    # Parse script
+    print(f"Parsing script: {SCRIPT_PATH}")
+    segments = parse_script(SCRIPT_PATH)
+    dialogue_count = sum(1 for s in segments if s[0] == "dialogue")
+    print(f"Found {len(segments)} segments ({dialogue_count} dialogue lines)")
+
+    # Generate audio for each segment
+    audio_files = []
+    segment_idx = 0
+
+    for seg_type, speaker, text in segments:
+        if seg_type == "section":
+            # Add pause for section breaks
+            pause_path = os.path.join(OUTPUT_DIR, f"seg_{segment_idx:04d}_section_pause.mp3")
+            generate_silence(PAUSE_AFTER_SECTION_HEADER, pause_path)
+            audio_files.append(pause_path)
+            segment_idx += 1
+            print(f"  [Section: {speaker}]")
+
+        elif seg_type == "pause":
+            pause_path = os.path.join(OUTPUT_DIR, f"seg_{segment_idx:04d}_pause.mp3")
+            generate_silence(PAUSE_BETWEEN_SEGMENTS, pause_path)
+            audio_files.append(pause_path)
+            segment_idx += 1
+
+        elif seg_type == "dialogue":
+            cleaned = clean_text_for_tts(text)
+            if not cleaned:
+                continue
+
+            # Generate speech
+            print(f"  Generating: {speaker}: {cleaned[:50]}...")
+            audio_content = synthesize_speech(access_token, cleaned, speaker)
+
+            # Save audio
+            audio_path = os.path.join(OUTPUT_DIR, f"seg_{segment_idx:04d}_{speaker.lower()}.mp3")
+            with open(audio_path, "wb") as f:
+                f.write(audio_content)
+            audio_files.append(audio_path)
+            segment_idx += 1
+
+            # Add inter-line pause
+            pause_path = os.path.join(OUTPUT_DIR, f"seg_{segment_idx:04d}_gap.mp3")
+            generate_silence(PAUSE_BETWEEN_LINES, pause_path)
+            audio_files.append(pause_path)
+            segment_idx += 1
+
+    if not audio_files:
+        print("ERROR: No audio segments generated!")
+        return
+
+    # Concatenate all audio into speech-only file
+    print(f"\nConcatenating {len(audio_files)} audio segments...")
+    concat_audio_files(audio_files, SPEECH_ONLY_OUTPUT)
+
+    if ADD_MUSIC:
+        # Add intro and outro music
+        print("Adding intro and outro music...")
+        add_music_to_podcast(SPEECH_ONLY_OUTPUT, FINAL_OUTPUT)
+        output_file = FINAL_OUTPUT
+    else:
+        print("Skipping music (ADD_MUSIC=False). Speech-only file ready for manual mixing.")
+        output_file = SPEECH_ONLY_OUTPUT
+
+    # Get duration
+    try:
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=noprint_wrappers=1:nokey=1", output_file],
+            capture_output=True, text=True,
+        )
+        duration = float(result.stdout.strip())
+        minutes = int(duration // 60)
+        seconds = int(duration % 60)
+        print(f"Duration: {minutes}m {seconds}s")
+    except Exception:
+        pass
+
+    # Report file size
+    size_mb = os.path.getsize(output_file) / (1024 * 1024)
+    print(f"File size: {size_mb:.1f} MB")
+    print(f"\nDone! Output: {output_file}")
+
+    # Cleanup individual segment files
+    print("\nCleaning up temporary segment files...")
+    for audio_file in audio_files:
+        if os.path.exists(audio_file):
+            os.remove(audio_file)
+
+    print("Audio generation complete!")
+
+
+if __name__ == "__main__":
+    main()
