@@ -4,11 +4,7 @@
 
 ## \[INTRO -- SCENE\]
 
-ALEX (Pronounce Urumau to rhyme with toe, spoken in an upbeat tone): One of my favourite views in Lyttelton, is from the top of the Port Saddle, above Urumau Reserve.
-
-(pause)
-
-ALEX (softly descriptive, measured pace):  Off the backside, you can see right out the mouth of the harbour, to the open ocean.
+ALEX (Pronounce Urumau to rhyme with toe, spoken starting in an upbeat tone, shifting to softly descriptive): One of my favourite views in Lyttelton, is from the top of the Port Saddle, above Urumau Reserve.  (pause)  Off the backside, you can see right out the mouth of the harbour, to the open ocean.
 
 JAMIE (warm, conversational): Yeah. It's a good climb to earn that view.
 
@@ -212,4 +208,5 @@ ALEX (calm, resolved): Yeah.
 
 ALEX (final, reflective, understated): In the meantime... we ride the
 long way around.
+
 
