@@ -38,7 +38,7 @@ VOICES = {
 
 # Global pronunciation hints prepended to every per-line prompt
 PRONUNCIATION = (
-    "Urumau pronounced oo-roo-MAH-oo, "
+    "Urumau rhymes with toe, "
     "Lyttelton pronounced LIT-ul-tun, "
     "Korimako pronounced KOR-ih-MAH-koh"
 )
