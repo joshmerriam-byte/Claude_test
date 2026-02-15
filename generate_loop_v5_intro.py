@@ -36,12 +36,10 @@ VOICES = {
     },
 }
 
-# Global pronunciation hints prepended to every per-line prompt
-PRONUNCIATION = (
-    "Urumau is pronounced OO-roo-mah-oo, four syllables, stress on first, "
-    "Lyttelton pronounced LIT-ul-tun, "
-    "Korimako pronounced KOR-ih-MAH-koh"
-)
+# Pronunciation reference (not sent to TTS — kept here for documentation).
+# Lyttelton: "little-ton" (LIT-ul-ton)
+# Urumau: 3 syllables, last rhymes with toe/Moe — "oo-roo-moe"
+# Korimako: KOR-ih-MAH-koh
 
 
 def parse_v5_intro(filepath):
@@ -165,16 +163,9 @@ def synthesize_speech(access_token, text, speaker, line_prompt, max_retries=8):
     """Generate audio using per-line prompt for voice direction."""
     voice_config = VOICES[speaker]
 
-    # Build the full prompt — keep it brief to avoid prompt leakage.
-    # Only append pronunciation guide for Māori words that need it.
-    # Lyttelton is common English and doesn't need guidance.
-    needs_pronunciation = any(
-        w in text.lower() for w in ("urumau", "korimako")
-    )
-    if needs_pronunciation:
-        full_prompt = f"{line_prompt}. ({PRONUNCIATION})"
-    else:
-        full_prompt = line_prompt
+    # Use only the delivery direction as the prompt — never include
+    # pronunciation guides, they leak into spoken audio on both voices.
+    full_prompt = line_prompt
 
     url = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
     headers = {
