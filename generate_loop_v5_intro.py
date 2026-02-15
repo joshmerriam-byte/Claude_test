@@ -140,7 +140,9 @@ def parse_v5_intro(filepath):
 
 
 def clean_text(text):
-    """Clean text for TTS."""
+    """Clean text for TTS — remove inline directives and normalise punctuation."""
+    # Strip inline (pause) markers so they aren't spoken aloud
+    text = re.sub(r"\s*\(pause\)\s*", " ", text)
     text = text.replace(" --- ", ", ")
     text = text.replace("---", ", ")
     text = text.replace("\u2014", ", ")
@@ -163,8 +165,15 @@ def synthesize_speech(access_token, text, speaker, line_prompt, max_retries=8):
     """Generate audio using per-line prompt for voice direction."""
     voice_config = VOICES[speaker]
 
-    # Build the full prompt: pronunciation hints + per-line direction
-    full_prompt = f"({PRONUNCIATION}) {line_prompt}"
+    # Build the full prompt — keep it brief to avoid prompt leakage.
+    # Only append pronunciation guide when the text actually contains those words.
+    needs_pronunciation = any(
+        w in text.lower() for w in ("urumau", "lyttelton", "korimako")
+    )
+    if needs_pronunciation:
+        full_prompt = f"{line_prompt}. ({PRONUNCIATION})"
+    else:
+        full_prompt = line_prompt
 
     url = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
     headers = {
