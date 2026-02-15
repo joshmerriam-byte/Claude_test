@@ -38,7 +38,7 @@ VOICES = {
 
 # Pronunciation reference (not sent to TTS — kept here for documentation).
 # Lyttelton: "little-ton" (LIT-ul-ton)
-# Urumau: 3 syllables, last rhymes with toe/Moe — "oo-roo-moe"
+# Urumau: 3 syllables, no stress emphasis, last syllable rhymes with toe/Moe — "oo-roo-moe"
 # Korimako: KOR-ih-MAH-koh
 
 
