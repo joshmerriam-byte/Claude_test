@@ -166,9 +166,10 @@ def synthesize_speech(access_token, text, speaker, line_prompt, max_retries=8):
     voice_config = VOICES[speaker]
 
     # Build the full prompt — keep it brief to avoid prompt leakage.
-    # Only append pronunciation guide when the text actually contains those words.
+    # Only append pronunciation guide for Māori words that need it.
+    # Lyttelton is common English and doesn't need guidance.
     needs_pronunciation = any(
-        w in text.lower() for w in ("urumau", "lyttelton", "korimako")
+        w in text.lower() for w in ("urumau", "korimako")
     )
     if needs_pronunciation:
         full_prompt = f"{line_prompt}. ({PRONUNCIATION})"

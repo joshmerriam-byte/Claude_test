@@ -8,7 +8,7 @@ ALEX (casual, warm, like starting a conversation with a friend): Hey Jamie, let 
 
 JAMIE (curious, leaning in): Yeah? Go on.
 
-ALEX (upbeat, shifting to softly descriptive): Up at the top of the Port Saddle, above Urumau Reserve... Off the backside, you can see right out the mouth of the harbour, to the open ocean.
+ALEX (casual, warm, shifting to softly descriptive): It's up at the top of the Port Saddle, above Urumau Reserve... Off the backside, you can see right out the mouth of the harbour, to the open ocean.
 
 JAMIE (warm, conversational): Yeah. It's a good climb to earn that view.
 
@@ -20,7 +20,7 @@ JAMIE (curious, leaning in): Bigger how?
 ALEX (gentle, searching for words): Um... exposed. Windy. Quiet in that
 high-up way. Like you're standing on the edge of something.
 
-JAMIE (settling in, engaged): I can picture that.
+JAMIE (warm): I can picture that.
 
 ALEX (settling into narrative): It's popular --- for good reason. Locals
 walk up from the neighbourhoods below, through the regenerating natives.
